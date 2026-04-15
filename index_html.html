@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!--
+    SEGURIDAD: Content Security Policy (CSP)
+    Restringe qué recursos pueden cargarse:
+    - default-src 'self'  → solo recursos del mismo origen
+    - style-src 'self'    → solo nuestro CSS local
+    - script-src 'self'   → solo nuestro JS local
+    Esto previene ataques XSS basados en inyección de scripts externos.
+  -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; style-src 'self'; script-src 'self';" />
+
+  <!-- Evita que el navegador adivine el tipo MIME (MIME sniffing) -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+
+  <title>Introducción a la Ciberseguridad | CiberEdu</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- =============================================
+       HEADER: Navegación principal fija
+       role="banner" para accesibilidad (ARIA)
+       ============================================= -->
+  <header role="banner">
+    <nav class="navbar" aria-label="Navegación principal">
+      <!-- Marca / Logo -->
+      <div class="nav-brand" aria-label="CiberEdu inicio">
+        <span class="brand-icon" aria-hidden="true">🛡️</span>
+        <span class="brand-name">CiberEdu</span>
+      </div>
+
+      <!-- Menú de navegación interna (anclas) -->
+      <ul class="nav-links" role="list">
+        <li><a href="#contenido" class="nav-link">Contenido</a></li>
+        <li><a href="#amenazas" class="nav-link">Amenazas</a></li>
+        <li><a href="#practicas" class="nav-link">Buenas Prácticas</a></li>
+        <li><a href="#test" class="nav-link nav-cta">📝 Test</a></li>
+      </ul>
+
+      <!-- Botón hamburguesa para móvil (controlado por JS) -->
+      <button
+        class="nav-toggle"
+        id="navToggle"
+        aria-expanded="false"
+        aria-controls="navMenu"
+        aria-label="Abrir menú de navegación"
+      >
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- =============================================
+       MAIN: Contenido principal de la SPA
+       role="main" para accesibilidad
+       ============================================= -->
+  <main id="app" role="main">
+
+    <!-- === SECCIÓN 1: HERO ===
+         Presentación visual de alto impacto.
+         No contiene datos dinámicos, todo es estático.
+    -->
+    <section id="hero" class="section-hero" aria-labelledby="hero-title">
+      <div class="hero-content">
+        <span class="hero-eyebrow">Módulo 1 · Fundamentos</span>
+        <h1 id="hero-title" class="hero-title">
+          Introducción a la<br />
+          <span class="highlight">Ciberseguridad</span>
+        </h1>
+        <p class="hero-subtitle">
+          Aprende a proteger tus datos, sistemas y redes en el entorno digital actual.
+          Contenido didáctico + test de evaluación.
+        </p>
+        <a href="#contenido" class="btn btn-primary" aria-label="Ir al contenido del módulo">
+          Comenzar módulo →
+        </a>
+      </div>
+
+      <!-- Decoración visual (aria-hidden: irrelevante para lectores de pantalla) -->
+      <div class="hero-decoration" aria-hidden="true">
+        <div class="deco-ring deco-ring--1"></div>
+        <div class="deco-ring deco-ring--2"></div>
+        <div class="deco-ring deco-ring--3"></div>
+      </div>
+    </section>
+
+    <!-- === SECCIÓN 2: ¿QUÉ ES LA CIBERSEGURIDAD? ===
+         Tarjetas informativas con iconos y descripciones.
+    -->
+    <section id="contenido" class="section-content" aria-labelledby="contenido-title">
+      <div class="container">
+        <header class="section-header">
+          <h2 id="contenido-title" class="section-title">¿Qué es la Ciberseguridad?</h2>
+          <p class="section-subtitle">
+            La práctica de proteger sistemas, redes y programas frente a ataques digitales.
+          </p>
+        </header>
+
+        <!-- Grid de tarjetas: cada <article> es una unidad de contenido independiente -->
+        <div class="cards-grid" role="list">
+
+          <article class="card" role="listitem">
+            <div class="card-icon" aria-hidden="true">🔒</div>
+            <h3 class="card-title">Definición</h3>
+            <p class="card-text">
+              Conjunto de tecnologías, procesos y prácticas diseñadas para proteger
+              redes, dispositivos, programas y datos frente a ataques, daños o accesos no autorizados.
+            </p>
+          </article>
+
+          <article class="card" role="listitem">
+            <div class="card-icon" aria-hidden="true">📊</div>
+            <h3 class="card-title">¿Por qué importa?</h3>
+            <p class="card-text">
+              En 2024, el coste medio de una brecha de seguridad superó los 4,5 millones de dólares.
+              Empresas, gobiernos y personas son objetivos constantes de ciberataques.
+            </p>
+          </article>
+
+          <article class="card" role="listitem">
+            <div class="card-icon" aria-hidden="true">🌐</div>
+            <h3 class="card-title">Alcance Global</h3>
+            <p class="card-text">
+              Abarca desde el dispositivo personal hasta infraestructuras críticas: hospitales,
+              centrales eléctricas, sistemas bancarios y redes gubernamentales.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- === SECCIÓN 3: TIPOS DE AMENAZAS ===
+         Lista de amenazas con badges de color y descripción.
+    -->
+    <section id="amenazas" class="section-threats" aria-labelledby="amenazas-title">
+      <div class="container">
+        <header class="section-header">
+          <h2 id="amenazas-title" class="section-title">Tipos de Amenazas</h2>
+          <p class="section-subtitle">Conoce las principales amenazas del entorno digital.</p>
+        </header>
+
+        <!-- Cada threat-item es un bloque semántico con badge + descripción -->
+        <div class="threats-grid">
+
+          <div class="threat-card">
+            <div class="threat-header">
+              <span class="threat-icon" aria-hidden="true">🦠</span>
+              <span class="badge badge--malware">Malware</span>
+            </div>
+            <p>Software malicioso (virus, troyanos, spyware) que infecta sistemas
+               para robar datos o causar daños sin el consentimiento del usuario.</p>
+          </div>
+
+          <div class="threat-card">
+            <div class="threat-header">
+              <span class="threat-icon" aria-hidden="true">🎣</span>
+              <span class="badge badge--phishing">Phishing</span>
+            </div>
+            <p>Suplantación de identidad a través de correos o webs falsas para
+               engañar a los usuarios y robar credenciales o datos financieros.</p>
+          </div>
+
+          <div class="threat-card">
+            <div class="threat-header">
+              <span class="threat-icon" aria-hidden="true">💣</span>
+              <span class="badge badge--ddos">DDoS</span>
+            </div>
+            <p>Ataque de denegación de servicio distribuido: miles de peticiones
+               simultáneas saturan un servidor hasta dejarlo inoperativo.</p>
+          </div>
+
+          <div class="threat-card">
+            <div class="threat-header">
+              <span class="threat-icon" aria-hidden="true">🔐</span>
+              <span class="badge badge--ransomware">Ransomware</span>
+            </div>
+            <p>Cifra todos los archivos de la víctima y exige un pago (rescate)
+               en criptomonedas para restaurar el acceso a la información.</p>
+          </div>
+
+          <div class="threat-card">
+            <div class="threat-header">
+              <span class="threat-icon" aria-hidden="true">🕵️</span>
+              <span class="badge badge--ingenieria">Ing. Social</span>
+            </div>
+            <p>Manipulación psicológica para que las personas revelen información
+               confidencial o realicen acciones que comprometan la seguridad.</p>
+          </div>
+
+          <div class="threat-card">
+            <div class="threat-header">
+              <span class="threat-icon" aria-hidden="true">🔓</span>
+              <span class="badge badge--exploit">Exploit</span>
+            </div>
+            <p>Aprovechamiento de vulnerabilidades en software sin actualizar para
+               obtener acceso no autorizado a sistemas o escalar privilegios.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- === SECCIÓN 4: BUENAS PRÁCTICAS ===
+         Lista ordenada con pasos concretos de seguridad.
+    -->
+    <section id="practicas" class="section-practices" aria-labelledby="practicas-title">
+      <div class="container">
+        <header class="section-header">
+          <h2 id="practicas-title" class="section-title">Buenas Prácticas</h2>
+          <p class="section-subtitle">Acciones concretas para mejorar tu seguridad digital.</p>
+        </header>
+
+        <!-- Lista ordenada semántica -->
+        <ol class="practices-list">
+          <li class="practice-item">
+            <span class="practice-num" aria-hidden="true">01</span>
+            <div>
+              <strong>Contraseñas fuertes y únicas</strong>
+              <p>Mínimo 12 caracteres combinando mayúsculas, minúsculas, números y símbolos.
+                 Usa un gestor de contraseñas como Bitwarden o KeePass.</p>
+            </div>
+          </li>
+          <li class="practice-item">
+            <span class="practice-num" aria-hidden="true">02</span>
+            <div>
+              <strong>Autenticación en dos factores (2FA)</strong>
+              <p>Actívalo en todas tus cuentas críticas. Añade una segunda capa de verificación
+                 que un atacante no pueda obtener solo con tu contraseña.</p>
+            </div>
+          </li>
+          <li class="practice-item">
+            <span class="practice-num" aria-hidden="true">03</span>
+            <div>
+              <strong>Actualizaciones regulares</strong>
+              <p>Mantén el sistema operativo y aplicaciones al día. Los parches de seguridad
+                 cierran vulnerabilidades que los atacantes explotan activamente.</p>
+            </div>
+          </li>
+          <li class="practice-item">
+            <span class="practice-num" aria-hidden="true">04</span>
+            <div>
+              <strong>Desconfía de los enlaces</strong>
+              <p>Verifica el remitente antes de hacer clic. Los ataques de phishing imitan
+                 webs legítimas con URLs ligeramente modificadas.</p>
+            </div>
+          </li>
+          <li class="practice-item">
+            <span class="practice-num" aria-hidden="true">05</span>
+            <div>
+              <strong>Copias de seguridad (Backups)</strong>
+              <p>Sigue la regla 3-2-1: 3 copias, en 2 medios distintos, 1 fuera del sitio.
+                 Te protege contra ransomware y fallos de hardware.</p>
+            </div>
+          </li>
+          <li class="practice-item">
+            <span class="practice-num" aria-hidden="true">06</span>
+            <div>
+              <strong>VPN en redes públicas</strong>
+              <p>Cifra tu tráfico en redes Wi-Fi abiertas para evitar ataques
+                 man-in-the-middle donde un atacante intercepta tu comunicación.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- === SECCIÓN 5: TEST DE EVALUACIÓN ===
+         Contenedor vacío → el DOM lo construye script.js dinámicamente.
+         Usar IDs específicos para que JS los encuentre sin ambigüedad.
+    -->
+    <section id="test" class="section-quiz" aria-labelledby="test-title">
+      <div class="container">
+        <header class="section-header">
+          <h2 id="test-title" class="section-title">Test de Evaluación</h2>
+          <p class="section-subtitle">
+            Responde las preguntas para comprobar lo que has aprendido.
+          </p>
+        </header>
+
+        <!--
+          #quiz-form: JS inyecta aquí las preguntas como elementos del DOM
+          usando createElement + textContent (nunca innerHTML con datos de usuario)
+          para prevenir XSS.
+        -->
+        <form id="quiz-form" novalidate aria-live="polite">
+          <!-- Contenido generado por script.js -->
+        </form>
+
+        <!--
+          #quiz-result: oculto por defecto.
+          JS lo hace visible tras enviar el formulario y muestra la puntuación.
+        -->
+        <div
+          id="quiz-result"
+          class="quiz-result hidden"
+          role="alert"
+          aria-atomic="true"
+          aria-live="assertive"
+        >
+          <!-- Resultado generado por script.js -->
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =============================================
+       FOOTER: Información de cierre
+       role="contentinfo" para accesibilidad
+       ============================================= -->
+  <footer role="contentinfo" class="footer">
+    <div class="container footer-inner">
+      <p>
+        <span aria-hidden="true">🛡️</span>
+        <strong>CiberEdu</strong> — Plataforma educativa de ciberseguridad
+      </p>
+      <p class="footer-note">Contenido didáctico · No almacena datos personales</p>
+    </div>
+  </footer>
+
+  <!--
+    script.js se carga al final del body:
+    - El DOM ya está completamente construido cuando el JS se ejecuta
+    - No necesitamos DOMContentLoaded para la mayoría de operaciones
+    - defer no es necesario aquí, pero podría añadirse para buena práctica
+  -->
+  <script src="script.js"></script>
+
+</body>
+</html>

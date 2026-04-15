@@ -1,0 +1,829 @@
+/* ================================================
+   style.css · CiberEdu SPA
+   Arquitectura: Mobile-First con CSS Custom Properties
+   Paleta: Dark Navy + Cyan eléctrico + Blancos
+   ================================================ */
+
+/* -----------------------------------------------
+   1. CUSTOM PROPERTIES (Variables CSS)
+   Definidas en :root para reutilización global.
+   Cambiar aquí afecta a toda la interfaz.
+   ----------------------------------------------- */
+:root {
+  /* Paleta principal */
+  --color-bg:         #0a192f;   /* Fondo principal: azul marino oscuro */
+  --color-bg-card:    #112240;   /* Fondo de tarjetas y secciones alternadas */
+  --color-bg-surface: #1d3461;   /* Superficies elevadas (amenazas, prácticas) */
+
+  /* Acento y tipografía */
+  --color-accent:     #64ffda;   /* Cyan eléctrico: CTAs, badges, highlights */
+  --color-accent-dim: rgba(100, 255, 218, 0.10); /* Versión traslúcida para fondos */
+  --color-text:       #ccd6f6;   /* Texto principal: azul pálido legible */
+  --color-text-muted: #8892b0;   /* Texto secundario: gris azulado */
+  --color-white:      #e6f1ff;   /* Blanco azulado para títulos */
+
+  /* Badges de amenazas */
+  --badge-malware:    #ff6b6b;
+  --badge-phishing:   #ffd166;
+  --badge-ddos:       #a78bfa;
+  --badge-ransomware: #f97316;
+  --badge-ingenieria: #38bdf8;
+  --badge-exploit:    #4ade80;
+
+  /* Estado del test */
+  --color-correct:    #4ade80;   /* Verde: respuesta correcta */
+  --color-wrong:      #f87171;   /* Rojo: respuesta incorrecta */
+  --color-neutral:    #93c5fd;   /* Azul: sin seleccionar */
+
+  /* Tipografía */
+  --font-base:        'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono:        'Courier New', Courier, monospace;
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+  --text-4xl:  2.25rem;
+
+  /* Espaciado base (escala 4px) */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* Bordes y sombras */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.25rem;
+  --radius-full: 9999px;
+  --shadow-card: 0 4px 24px rgba(2, 12, 27, 0.7);
+  --shadow-glow: 0 0 20px rgba(100, 255, 218, 0.15);
+
+  /* Transiciones */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* Navbar height (usada para offset de anclas) */
+  --navbar-h: 64px;
+}
+
+/* -----------------------------------------------
+   2. RESET Y BASE
+   Normalización cross-browser + tipografía base.
+   ----------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* Scroll suave para todos los enlaces de ancla */
+  scroll-behavior: smooth;
+  /* Offset para que el header fijo no tape el contenido al navegar */
+  scroll-padding-top: var(--navbar-h);
+  font-size: 100%; /* 16px base */
+}
+
+body {
+  font-family: var(--font-base);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Accesibilidad: outline visible al navegar con teclado */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* Reset de listas dentro de nav (mantener semántica) */
+ul, ol {
+  list-style: none;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+
+a:hover {
+  opacity: 0.85;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* -----------------------------------------------
+   3. UTILIDADES GLOBALES
+   ----------------------------------------------- */
+
+/* Contenedor centrado con ancho máximo */
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+}
+
+/* Clase ocultar: JS la elimina para mostrar elementos */
+.hidden {
+  display: none !important;
+}
+
+/* Botones base */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-full);
+  font-size: var(--text-base);
+  font-weight: 600;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: background-color var(--transition-base),
+              color var(--transition-base),
+              transform var(--transition-fast),
+              box-shadow var(--transition-base);
+  text-decoration: none;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background-color: transparent;
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-accent-dim);
+  box-shadow: var(--shadow-glow);
+  opacity: 1;
+}
+
+.btn-submit {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  border-color: var(--color-accent);
+  width: 100%;
+  justify-content: center;
+  font-size: var(--text-lg);
+  padding: var(--space-4);
+  margin-top: var(--space-8);
+}
+
+.btn-submit:hover {
+  filter: brightness(1.1);
+  box-shadow: var(--shadow-glow);
+  opacity: 1;
+}
+
+.btn-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Encabezados de sección reutilizables */
+.section-header {
+  text-align: center;
+  margin-bottom: var(--space-12);
+}
+
+.section-title {
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: var(--space-3);
+}
+
+.section-subtitle {
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+  max-width: 600px;
+  margin-inline: auto;
+}
+
+/* -----------------------------------------------
+   4. NAVBAR
+   Header fijo con backdrop blur para legibilidad.
+   ----------------------------------------------- */
+header[role="banner"] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: var(--navbar-h);
+  background-color: rgba(10, 25, 47, 0.92);
+  /* Efecto glassmorphism sutil */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(100, 255, 218, 0.10);
+}
+
+.navbar {
+  height: 100%;
+  max-width: 1100px;
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo / marca */
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: default;
+}
+
+.brand-icon {
+  font-size: var(--text-2xl);
+}
+
+.brand-name {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-accent);
+  letter-spacing: 0.5px;
+}
+
+/* Links del menú (ocultos en móvil por defecto) */
+.nav-links {
+  display: none; /* Mobile-first: oculto hasta breakpoint lg */
+  gap: var(--space-6);
+  align-items: center;
+}
+
+.nav-link {
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.nav-link:hover {
+  color: var(--color-accent);
+  background-color: var(--color-accent-dim);
+  opacity: 1;
+}
+
+/* CTA del nav: botón con borde */
+.nav-cta {
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-full);
+  padding: var(--space-1) var(--space-4);
+}
+
+/* Botón hamburguesa (visible solo en móvil) */
+.nav-toggle {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: var(--space-2);
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+.hamburger-line {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: var(--color-accent);
+  border-radius: 2px;
+  transition: transform var(--transition-base), opacity var(--transition-base);
+}
+
+/* Animación X cuando el menú está abierto (clase añadida por JS) */
+.nav-toggle.is-open .hamburger-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-toggle.is-open .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle.is-open .hamburger-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Menú móvil expandido */
+.nav-links.is-open {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: var(--navbar-h);
+  left: 0;
+  right: 0;
+  background-color: var(--color-bg-card);
+  padding: var(--space-6) var(--space-4);
+  border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+  gap: var(--space-2);
+}
+
+/* -----------------------------------------------
+   5. HERO
+   Pantalla completa con efecto de anillos decorativos.
+   ----------------------------------------------- */
+.section-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-24) var(--space-4) var(--space-16);
+  overflow: hidden;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2; /* Encima de los anillos decorativos */
+  max-width: 700px;
+}
+
+.hero-eyebrow {
+  display: inline-block;
+  font-size: var(--text-sm);
+  font-family: var(--font-mono);
+  color: var(--color-accent);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: var(--space-4);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid rgba(100, 255, 218, 0.3);
+  border-radius: var(--radius-full);
+}
+
+.hero-title {
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  color: var(--color-white);
+  line-height: 1.15;
+  margin-bottom: var(--space-6);
+  letter-spacing: -0.5px;
+}
+
+.hero-title .highlight {
+  color: var(--color-accent);
+  /* Subrayado decorativo con gradiente */
+  text-decoration: underline;
+  text-decoration-color: rgba(100, 255, 218, 0.4);
+  text-underline-offset: 6px;
+}
+
+.hero-subtitle {
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  margin-bottom: var(--space-8);
+  max-width: 550px;
+  margin-inline: auto;
+}
+
+/* Anillos decorativos pulsantes */
+.hero-decoration {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none; /* No bloquea clics */
+}
+
+.deco-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(100, 255, 218, 0.08);
+  animation: pulse-ring 4s ease-in-out infinite;
+}
+
+.deco-ring--1 { width: 300px; height: 300px; animation-delay: 0s; }
+.deco-ring--2 { width: 500px; height: 500px; animation-delay: 0.8s; }
+.deco-ring--3 { width: 700px; height: 700px; animation-delay: 1.6s; }
+
+@keyframes pulse-ring {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%       { opacity: 0.8; transform: scale(1.03); }
+}
+
+/* -----------------------------------------------
+   6. SECCIÓN CONTENIDO (Cards)
+   ----------------------------------------------- */
+.section-content {
+  padding: var(--space-20) 0;
+}
+
+/* Grid responsivo: 1 col → 3 col */
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+.card {
+  background-color: var(--color-bg-card);
+  border: 1px solid rgba(100, 255, 218, 0.08);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  transition: transform var(--transition-base), border-color var(--transition-base);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(100, 255, 218, 0.25);
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-4);
+}
+
+.card-title {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--color-white);
+  margin-bottom: var(--space-3);
+}
+
+.card-text {
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+
+/* -----------------------------------------------
+   7. SECCIÓN AMENAZAS
+   ----------------------------------------------- */
+.section-threats {
+  padding: var(--space-20) 0;
+  background-color: var(--color-bg-card);
+}
+
+.threats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+.threat-card {
+  background-color: var(--color-bg-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  border-left: 3px solid var(--color-accent);
+  transition: transform var(--transition-base);
+}
+
+.threat-card:hover {
+  transform: translateX(4px);
+}
+
+.threat-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.threat-icon {
+  font-size: var(--text-2xl);
+}
+
+/* Badges coloreados por tipo de amenaza */
+.badge {
+  display: inline-block;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  font-family: var(--font-mono);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #0a192f; /* Texto oscuro sobre colores vivos */
+}
+
+.badge--malware     { background-color: var(--badge-malware); }
+.badge--phishing    { background-color: var(--badge-phishing); }
+.badge--ddos        { background-color: var(--badge-ddos); }
+.badge--ransomware  { background-color: var(--badge-ransomware); }
+.badge--ingenieria  { background-color: var(--badge-ingenieria); }
+.badge--exploit     { background-color: var(--badge-exploit); }
+
+/* -----------------------------------------------
+   8. SECCIÓN BUENAS PRÁCTICAS
+   ----------------------------------------------- */
+.section-practices {
+  padding: var(--space-20) 0;
+}
+
+.practices-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  counter-reset: practices; /* No usamos el contador por defecto, usamos .practice-num */
+}
+
+.practice-item {
+  display: flex;
+  gap: var(--space-6);
+  align-items: flex-start;
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  transition: border-color var(--transition-base);
+  border: 1px solid transparent;
+}
+
+.practice-item:hover {
+  border-color: rgba(100, 255, 218, 0.15);
+}
+
+/* Número grande decorativo */
+.practice-num {
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: var(--color-accent-dim);
+  color: rgba(100, 255, 218, 0.25);
+  flex-shrink: 0;
+  line-height: 1;
+  min-width: 40px;
+}
+
+.practice-item strong {
+  display: block;
+  color: var(--color-white);
+  font-size: var(--text-lg);
+  margin-bottom: var(--space-2);
+}
+
+.practice-item p {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+/* -----------------------------------------------
+   9. SECCIÓN QUIZ (Test de evaluación)
+   ----------------------------------------------- */
+.section-quiz {
+  padding: var(--space-20) 0 var(--space-24);
+  background-color: var(--color-bg-card);
+}
+
+/* Formulario del quiz: generado por JS */
+#quiz-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+/* Cada bloque de pregunta */
+.quiz-question-block {
+  background-color: var(--color-bg);
+  border: 1px solid rgba(100, 255, 218, 0.08);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6) var(--space-8);
+}
+
+.quiz-question-text {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-white);
+  margin-bottom: var(--space-4);
+  line-height: 1.5;
+}
+
+.quiz-question-num {
+  font-family: var(--font-mono);
+  color: var(--color-accent);
+  font-size: var(--text-sm);
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
+/* Opciones de respuesta: label envuelve input+texto para área de clic mayor */
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.quiz-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  border: 1px solid rgba(100, 255, 218, 0.1);
+  background-color: var(--color-bg-card);
+  transition: border-color var(--transition-fast),
+              background-color var(--transition-fast);
+  user-select: none;
+}
+
+.quiz-option:hover {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent-dim);
+}
+
+/* Cuando la opción está seleccionada (marcada por JS) */
+.quiz-option.is-selected {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent-dim);
+}
+
+/* Estados post-evaluación: correcto / incorrecto */
+.quiz-option.is-correct {
+  border-color: var(--color-correct);
+  background-color: rgba(74, 222, 128, 0.1);
+  color: var(--color-correct);
+}
+
+.quiz-option.is-wrong {
+  border-color: var(--color-wrong);
+  background-color: rgba(248, 113, 113, 0.1);
+  color: var(--color-wrong);
+}
+
+/* Input radio oculto visualmente pero accesible */
+.quiz-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  accent-color: var(--color-accent); /* Color nativo del browser */
+  cursor: pointer;
+}
+
+.quiz-option-text {
+  font-size: var(--text-base);
+}
+
+/* -----------------------------------------------
+   10. RESULTADO DEL TEST
+   ----------------------------------------------- */
+.quiz-result {
+  margin-top: var(--space-8);
+  padding: var(--space-8);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  border: 1px solid;
+  animation: fadeIn var(--transition-slow) ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Variantes según puntuación (clase añadida por JS) */
+.quiz-result--excellent {
+  border-color: var(--color-correct);
+  background-color: rgba(74, 222, 128, 0.07);
+}
+.quiz-result--good {
+  border-color: var(--badge-phishing);
+  background-color: rgba(255, 209, 102, 0.07);
+}
+.quiz-result--poor {
+  border-color: var(--color-wrong);
+  background-color: rgba(248, 113, 113, 0.07);
+}
+
+.result-emoji {
+  font-size: 3.5rem;
+  margin-bottom: var(--space-4);
+}
+
+.result-score {
+  font-size: var(--text-4xl);
+  font-weight: 800;
+  color: var(--color-white);
+  font-family: var(--font-mono);
+  margin-bottom: var(--space-2);
+}
+
+.result-label {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+}
+
+.result-message {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-6);
+}
+
+/* -----------------------------------------------
+   11. FOOTER
+   ----------------------------------------------- */
+.footer {
+  background-color: var(--color-bg);
+  border-top: 1px solid rgba(100, 255, 218, 0.08);
+  padding: var(--space-8) 0;
+}
+
+.footer-inner {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.footer-note {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+/* ================================================
+   12. RESPONSIVE: TABLET (≥ 640px)
+   ================================================ */
+@media (min-width: 640px) {
+
+  .hero-title {
+    font-size: var(--text-4xl);
+  }
+
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .threats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ================================================
+   13. RESPONSIVE: DESKTOP (≥ 1024px)
+   ================================================ */
+@media (min-width: 1024px) {
+
+  /* Mostrar nav completo, ocultar botón hamburguesa */
+  .nav-links {
+    display: flex; /* Menú horizontal en desktop */
+  }
+
+  .nav-toggle {
+    display: none;
+  }
+
+  .hero-title {
+    font-size: 3.5rem;
+  }
+
+  .cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .threats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .container {
+    padding-inline: var(--space-8);
+  }
+}
+
+/* ================================================
+   14. ACCESIBILIDAD: prefers-reduced-motion
+   Deshabilita animaciones para usuarios que lo prefieran.
+   ================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
